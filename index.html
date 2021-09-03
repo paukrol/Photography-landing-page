@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Poppins:wght@300;400&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+      integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Photography</title>
+  </head>
+  <body>
+    <div class="wrapper-ie-bug">
+      <header class="header" id="home">
+        <div class="header__wrapper wrapper flex flex--vertical flex--header">
+          <div class="menu-bars">
+            <i class="menu-bars__icon fas fa-bars"></i>
+          </div>
+          <nav class="menu">
+            <ul class="menu__list flex flex--menu-list">
+              <li class="menu__item active">
+                <a href="#home" class="menu__link">Home</a>
+              </li>
+              <li class="menu__item">
+                <a href="#about" class="menu__link">About</a>
+              </li>
+              <li class="menu__item">
+                <a href="#portfolio" class="menu__link">Portfolio</a>
+              </li>
+              <li class="menu__item">
+                <a href="#blog" class="menu__link">Blog</a>
+              </li>
+              <li class="menu__item">
+                <a href="#video" class="menu__link">Video</a>
+              </li>
+              <li class="menu__item">
+                <a href="#testimonials" class="menu__link">Testimonials</a>
+              </li>
+              <li class="menu__item">
+                <a href="#contact" class="menu__link">Contact</a>
+              </li>
+              <li class="menu__item menu__item--search flex">
+                <form action="" class="menu__form">
+                  <input
+                    type="text"
+                    name=""
+                    id=""
+                    class="menu__input"
+                    placeholder="Szukaj"
+                  />
+                </form>
+                <i class="fas fa-search menu__icon icon"></i>
+              </li>
+            </ul>
+            <div
+              class="
+                social-icons social-icons--vertical social-icons--horizontal
+              "
+            >
+              <a href="" class="social-icons__link">
+                <i class="social-icons__icon fab fa-twitter"></i>
+              </a>
+              <a href="" class="social-icons__link">
+                <i class="social-icons__icon fab fa-google-plus-g"></i>
+              </a>
+              <a href="" class="social-icons__link">
+                <i class="social-icons__icon fab fa-dribbble"></i>
+              </a>
+              <a href="" class="social-icons__link">
+                <i class="social-icons__icon fab fa-linkedin-in"></i>
+              </a>
+            </div>
+          </nav>
+          <div class="header__banner flex flex--vertical">
+            <img
+              src="images/main-banner/banner-logo.png"
+              alt=""
+              class="header__banner-logo"
+            />
+            <h1 class="header__title title">Love Story Photography</h1>
+            <div class="header__info-container">
+              <p class="header__info body-text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis
+                quia facere id illo aut! Ratione voluptatum ad quam blanditiis
+                eum! Tempore ea harum distinctio, dolor odio, eligendi aliquid
+                illo laborum omnis fuga maiores voluptatibus incidunt corrupti
+                facilis.
+              </p>
+              <p class="header__info body-text">
+                Sed laoreet ex facilisis molestie placerat. Integer congue,
+                lacus vel eleifend porta, felis tellus fermentum metus, iaculis
+                mollis lorem magna id quam. Nam venenatis libero malesuada enim
+                iaculis rhoncus. Nam dictum porttitor nisl vitae blandit.
+              </p>
+              <p class="header__info body-text">
+                Donec faucibus nisl non odio finibus hendrerit. Cras fringilla
+                urna ut hendrerit tempus. Lorem ipsum dolor sit amet,
+                consectetur adipiscing elit. Sed sed mauris metus. Nunc vel
+                bibendum neque, eu viverra ante. Pellentesque ullamcorper erat
+                et mauris ultrices, vel fringilla libero congue.
+              </p>
+            </div>
+          </div>
+          <div class="circles flex circles--ie circles--header">
+            <!-- <div class="circles__circle active"></div>
+            <div class="circles__circle"></div>
+            <div class="circles__circle"></div> -->
+          </div>
+          <div class="social-icons social-icons--vertical social-icons--hidden">
+            <a href="" class="social-icons__link">
+              <i class="social-icons__icon fab fa-twitter"></i>
+            </a>
+            <a href="" class="social-icons__link">
+              <i class="social-icons__icon fab fa-google-plus-g"></i>
+            </a>
+            <a href="" class="social-icons__link">
+              <i class="social-icons__icon fab fa-dribbble"></i>
+            </a>
+            <a href="" class="social-icons__link">
+              <i class="social-icons__icon fab fa-linkedin-in"></i>
+            </a>
+          </div>
+        </div>
+      </header>
+    </div>
+
+    <!-- Section About Me -->
+    <section class="about-me" id="about">
+      <div class="about-me__wrapper wrapper flex flex--about-me">
+        <img
+          src="images/about-me/photo-aboutme.png"
+          alt=""
+          class="about-me__image"
+        />
+        <div class="about-me__info">
+          <h1 class="about-me__title title-2">About me</h1>
+          <p class="about-me__text body-text">
+            Lorem, ipsum dolor sit amet consectetur adipisicing elit. Quaerat
+            magni cumque doloremque odio tempore aspernatur, enim voluptas
+            excepturi repellat ad, harum, natus sequi. Eos illo sapiente nulla.
+            Necessitatibus, repudiandae tenetur.
+          </p>
+          <button class="btn about-me__btn">Get to know me better</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Portfolio -->
+    <section class="portfolio flex" id="portfolio">
+      <div class="banner flex flex--vertical">
+        <h1 class="banner__title title-2">Portfolio</h1>
+        <h2 class="banner__subtitle title">The Best of 2020</h2>
+        <h5 class="banner__info">
+          After wedding, Engagement, Love Story, Wedding
+        </h5>
+        <button class="btn banner__btn">More Photos</button>
+      </div>
+    </section>
+
+    <!-- Section Gallery -->
+    <section class="gallery" id="blog">
+      <div class="gallery__wrapper wrapper grid">
+        <div class="gallery__image gallery__image--1">
+          <img class="gallery__img" src="images/portfolio/photo-1.jpg" alt="" />
+        </div>
+        <div class="gallery__image gallery__image--2">
+          <img class="gallery__img" src="images/portfolio/photo-2.jpg" alt="" />
+        </div>
+        <div class="gallery__image gallery__image--3">
+          <img class="gallery__img" src="images/portfolio/photo-3.jpg" alt="" />
+        </div>
+        <div class="gallery__image gallery__image--4">
+          <img class="gallery__img" src="images/portfolio/photo-4.jpg" alt="" />
+        </div>
+        <div class="gallery__image gallery__image--5">
+          <img class="gallery__img" src="images/portfolio/photo-5.jpg" alt="" />
+        </div>
+        <div class="gallery__image gallery__image--6">
+          <img class="gallery__img" src="images/portfolio/photo-6.jpg" alt="" />
+        </div>
+        <div class="gallery__image gallery__image--7">
+          <img class="gallery__img" src="images/portfolio/photo-7.jpg" alt="" />
+        </div>
+      </div>
+      <div class="circles circles--gallery flex">
+        <!-- <div class="circles__circle circles__circle--gallery active"></div>
+        <div class="circles__circle circles__circle--gallery"></div>
+        <div class="circles__circle circles__circle--gallery"></div> -->
+      </div>
+    </section>
+
+    <!-- Section Video -->
+    <section class="video" id="video">
+      <div class="banner video__banner flex flex--vertical">
+        <h2 class="banner__subtitle banner__subtitle--main title">Video</h2>
+        <p class="banner__info banner__info--short">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eaque, velit
+          omnis accusantium ipsum in numquam at. Totam laborum molestiae,
+          doloribus consequuntur expedita velit sequi rerum!
+        </p>
+      </div>
+      <div class="video__wrapper wrapper flex flex--vertical">
+        <div
+          class="video-container video-container--medium flex flex--vertical"
+        >
+          <div class="video-container__image flex">
+            <img
+              src="images/video/photo-video.jpg"
+              alt=""
+              class="video-container__img flex"
+            />
+            <i class="video-container__icon fas fa-play"></i>
+          </div>
+          <p class="video-container__description body-text">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum
+            reiciendis earum porro ducimus ut neque voluptatum adipisci, qui
+            consequatur obcaecati, nesciunt aut, explicabo molestiae labore non!
+            Accusantium, aspernatur doloremque eos error quos placeat ipsam
+            assumenda?
+          </p>
+        </div>
+        <div class="video-container flex flex--video">
+          <div
+            class="video-container video-container--small flex flex--vertical"
+          >
+            <div class="video-container__image flex">
+              <img
+                src="images/video/thumb-1.jpg"
+                alt=""
+                class="video-container__img"
+              />
+            </div>
+            <p class="video-container__description body-text">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            </p>
+          </div>
+          <div
+            class="video-container video-container--small flex flex--vertical"
+          >
+            <div class="video-container__image flex">
+              <img
+                src="images/video/thumb-2.jpg"
+                alt=""
+                class="video-container__img"
+              />
+            </div>
+            <p class="video-container__description body-text">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            </p>
+          </div>
+          <div
+            class="video-container video-container--small flex flex--vertical"
+          >
+            <div class="video-container__image flex">
+              <img
+                src="images/video/thumb-3.jpg"
+                alt=""
+                class="video-container__img"
+              />
+            </div>
+            <p class="video-container__description body-text">
+              Lorem ipsum dolor sit amet consectetur adipisicing elit.
+            </p>
+          </div>
+        </div>
+        <button class="btn video__btn">More Videos</button>
+      </div>
+    </section>
+
+    <!-- Section Testimonials -->
+    <section class="testimonials" id="testimonials">
+      <div class="testimonials__wrapper wrapper flex flex--vertical">
+        <h1 class="testimonials__title title-2">The Testimonials</h1>
+        <h2 class="testimonials__subtitle body-text-2">What They Say</h2>
+        <div class="testimonials__container flex flex--testimonials">
+          <div class="testimonial">
+            <div class="testimonial__image">
+              <img
+                src="images/Testimonials/photo-circle1.jpg"
+                alt=""
+                class="testimonial__img"
+              />
+            </div>
+            <div class="testimonial__description">
+              <h1 class="testimonial__name title flex">Cassandra & Andreas</h1>
+              <p class="testimonial__info body-text">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                Provident, sit quidem, minus obcaecati tempora possimus
+                assumenda officiis quo harum aut eum deserunt sint rem, beatae
+                amet mollitia?
+              </p>
+            </div>
+          </div>
+          <div class="testimonial">
+            <div class="testimonial__image">
+              <img
+                src="images/Testimonials/photo-circle2.jpg"
+                alt=""
+                class="testimonial__img"
+              />
+            </div>
+            <div class="testimonial__description">
+              <h1 class="testimonial__name title flex">Aleksandra & Max</h1>
+              <p class="testimonial__info body-text">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                Provident, sit quidem, minus obcaecati tempora possimus
+                assumenda officiis quo harum aut eum deserunt sint rem, beatae
+                amet mollitia?
+              </p>
+            </div>
+          </div>
+          <div class="testimonial">
+            <div class="testimonial__image">
+              <img
+                src="images/Testimonials/photo-circle3.jpg"
+                alt=""
+                class="testimonial__img"
+              />
+            </div>
+            <div class="testimonial__description">
+              <h1 class="testimonial__name title flex">Angela & Jack</h1>
+              <p class="testimonial__info body-text">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                Provident, sit quidem, minus obcaecati tempora possimus
+                assumenda officiis quo harum aut eum deserunt sint rem, beatae
+                amet mollitia?
+              </p>
+            </div>
+          </div>
+        </div>
+        <button class="btn testimonials__btn">Read More</button>
+      </div>
+    </section>
+
+    <!-- Section Contact -->
+    <section class="contact" id="contact">
+      <div
+        class="
+          contact__wrapper contact__wrapper--small
+          wrapper
+          flex flex--vertical
+        "
+      >
+        <h1 class="contact__title title-2">Contact me</h1>
+        <h2 class="contact__subtitle body-text-2">Get in touch</h2>
+        <div
+          class="contact__wrapper contact__wrapper--border flex flex--contact"
+        >
+          <div class="contact__left">
+            <p class="contact__info body-text">
+              Lorem ipsum dolor sit amet, consectetur adipisicing elit. Impedit,
+              voluptas dolorem tenetur nisi exercitationem fuga. Quia nulla
+              natus ducimus?
+            </p>
+            <form action="" class="contact__form">
+              <div class="contact__input-group">
+                <input
+                  class="contact__input"
+                  type="text"
+                  name="name"
+                  id="name"
+                />
+                <label class="contact__label" for="name">Name:</label>
+              </div>
+              <div class="contact__input-group">
+                <input
+                  class="contact__input"
+                  type="text"
+                  name="subject"
+                  id="subject"
+                />
+                <label class="contact__label" for="subject">Subject:</label>
+              </div>
+              <div class="contact__input-group">
+                <textarea
+                  class="contact__textarea"
+                  name="subject-2"
+                  id="subject-2"
+                  cols="30"
+                  rows="10"
+                ></textarea>
+                <label class="contact__label" for="subject-2">Subject:</label>
+              </div>
+            </form>
+          </div>
+          <div class="contact__right"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section Footer -->
+    <footer class="footer">
+      <div class="wrapper flex flex--vertical">
+        <nav class="menu menu--margin menu--hidden">
+          <ul class="menu__list flex flex--menu-list">
+            <li class="menu__item active">
+              <a href="#home" class="menu__link">Home</a>
+            </li>
+            <li class="menu__item">
+              <a href="#about" class="menu__link">About</a>
+            </li>
+            <li class="menu__item">
+              <a href="#portfolio" class="menu__link">Portfolio</a>
+            </li>
+            <li class="menu__item">
+              <a href="#blog" class="menu__link">Blog</a>
+            </li>
+            <li class="menu__item">
+              <a href="video" class="menu__link">Vdeo</a>
+            </li>
+            <li class="menu__item">
+              <a href="" class="menu__link">Testimonials</a>
+            </li>
+            <li class="menu__item">
+              <a href="" class="menu__link">Contact</a>
+            </li>
+            <li class="menu__item menu__item--search">
+              <form action="" class="menu__form">
+                <input
+                  type="text"
+                  name=""
+                  id=""
+                  class="menu__input"
+                  placeholder="Szukaj"
+                />
+              </form>
+              <i class="fas fa-search menu__icon"></i>
+            </li>
+          </ul>
+        </nav>
+        <div class="social-icons social-icons--footer">
+          <a href="" class="social-icons__link">
+            <i
+              class="
+                social-icons__icon social-icons__social-icon--active
+                fab
+                fa-facebook-f
+              "
+            ></i>
+          </a>
+          <a href="" class="social-icons__link">
+            <i class="social-icons__icon fab fa-behance"></i>
+          </a>
+          <a href="" class="social-icons__link">
+            <i class="social-icons__icon fab fa-twitter"></i>
+          </a>
+          <a href="" class="social-icons__link">
+            <i class="social-icons__icon fab fa-instagram"></i>
+          </a>
+          <a href="" class="social-icons__link">
+            <i class="social-icons__icon fab fa-pinterest"></i>
+          </a>
+          <a href="" class="social-icons__link">
+            <i class="social-icons__icon fab fa-dribbble"></i>
+          </a>
+        </div>
+        <p class="footer__info body-text">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. <br />
+          Obcaecati harum eius totam repellat, labore a ratione modi vero sequi
+          autem! <br />
+          In rem fugit ratione expedita maiores adipisci repellendus eius
+          reprehenderit.
+        </p>
+        <p class="footer__copyrights">
+          Copyrights &copy; Templates from free-psd-template.com; Code By Me -
+          Paulina Król
+        </p>
+      </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <!-- <script src="script-old.js"></script> -->
+  </body>
+</html>
