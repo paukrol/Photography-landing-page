@@ -23,24 +23,25 @@ document.addEventListener('keydown', (e) => {
   });
 });
 
+/////////////////////////////////////////////////////////////
 // Slider header
 
-const headerInfoSlides = document.querySelectorAll('.header__info');
+const headerSlides = document.querySelectorAll('.header__slide');
 const circlesHeaderContainer = document.querySelector('.circles--header');
 let curSlide = 0;
-const maxSlide = headerInfoSlides.length;
+const maxSlide = headerSlides.length;
 
 const circlesGalleryContainer = document.querySelector('.circles--gallery');
 
 const goToSlide = function (slide) {
-  headerInfoSlides.forEach((el, i) => {
+  headerSlides.forEach((el, i) => {
     el.style.transform = `translateX(${(i - slide) * 100}%)`;
   });
 };
 goToSlide(0);
 
 const createCircle = function () {
-  headerInfoSlides.forEach((_, i) => {
+  headerSlides.forEach((_, i) => {
     circlesHeaderContainer.insertAdjacentHTML(
       'beforeend',
       `<div class="circles__circle" data-circle="${i}"></div>`
@@ -82,3 +83,37 @@ circlesHeaderContainer.addEventListener('click', (e) => {
   activateDot(e.target.dataset.circle);
   goToSlide(e.target.dataset.circle);
 });
+
+//////////////////////////////////////////////////////////////
+// Gallery
+const galleryContainer = document.querySelector('.gallery__wrapper');
+const overlay = document.querySelector('.overlay');
+
+galleryContainer.addEventListener('click', (e) => {
+  if (!e.target.closest('.gallery__image')) return;
+
+  overlay.classList.add('overlay--active');
+
+  overlay.insertAdjacentHTML(
+    'beforeend',
+    `<div class="modal__image">
+    <img class="modal__img"/>
+  </div>`
+  );
+
+  document
+    .querySelector('.modal__img')
+    .setAttribute('src', e.target.getAttribute('src'));
+});
+
+const removeModal = function () {
+  if (!document.querySelector('.modal__image')) return;
+  document.querySelector('.modal__image').remove();
+  overlay.classList.remove('overlay--active');
+};
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') removeModal();
+});
+
+overlay.addEventListener('click', () => removeModal());
