@@ -23,87 +23,87 @@ document.addEventListener('keydown', (e) => {
   });
 });
 
-/////////////////////////////////////////////////////////////
-// Slider header
+// /////////////////////////////////////////////////////////////
+// // Slider header
 
-const headerSlides = document.querySelectorAll('.header__slide');
-const circlesHeaderContainer = document.querySelector('.circles--header');
-let curSlide = 0;
-const maxSlide = headerSlides.length;
+// const headerSlides = document.querySelectorAll('.header__slide');
+// const circlesHeaderWrapper = document.querySelector('.circles--header');
+// let curSlide = 0;
+// const maxSlide = headerSlides.length;
 
-const circlesGalleryContainer = document.querySelector('.circles--gallery');
+// const goToSlide = function (slide) {
+//   headerSlides.forEach((el, i) => {
+//     el.style.transform = `translateX(${(i - slide) * 100}%)`;
+//   });
+// };
+// goToSlide(0);
 
-const goToSlide = function (slide) {
-  headerSlides.forEach((el, i) => {
-    el.style.transform = `translateX(${(i - slide) * 100}%)`;
-  });
-};
-goToSlide(0);
+// const createCircle = function () {
+//   headerSlides.forEach((_, i) => {
+//     circlesHeaderWrapper.insertAdjacentHTML(
+//       'beforeend',
+//       `<div class="circles__circle" data-circle="${i}"></div>`
+//     );
+//   });
+// };
+// createCircle();
 
-const createCircle = function () {
-  headerSlides.forEach((_, i) => {
-    circlesHeaderContainer.insertAdjacentHTML(
-      'beforeend',
-      `<div class="circles__circle" data-circle="${i}"></div>`
-    );
-  });
-};
-createCircle();
+// // Activate dot
+// const activateDot = function (slide) {
+//   document
+//     .querySelectorAll('.circles__circle')
+//     .forEach((dot) => dot.classList.remove('circles__circle--active'));
 
-// Activate dot
-const activateDot = function (slide) {
-  document
-    .querySelectorAll('.circles__circle')
-    .forEach((dot) => dot.classList.remove('circles__circle--active'));
+//   document
+//     .querySelector(`.circles__circle[data-circle="${slide}"`)
+//     .classList.add('circles__circle--active');
+// };
+// activateDot(0);
 
-  document
-    .querySelector(`.circles__circle[data-circle="${slide}"`)
-    .classList.add('circles__circle--active');
-};
-activateDot(0);
+// // Next slide
+// const nextSlide = function () {
+//   if (curSlide === maxSlide - 1) {
+//     curSlide = 0;
+//   } else {
+//     curSlide++;
+//   }
 
-// Next slide
-const nextSlide = function () {
-  if (curSlide === maxSlide - 1) {
-    curSlide = 0;
-  } else {
-    curSlide++;
-  }
+//   goToSlide(curSlide);
+//   activateDot(curSlide);
+// };
 
-  goToSlide(curSlide);
-  activateDot(curSlide);
-};
+// const slideAfter5Sec = setInterval(nextSlide, 5000);
 
-const slideAfter5Sec = setInterval(nextSlide, 5000);
+// circlesHeaderWrapper.addEventListener('click', (e) => {
+//   if (!e.target.classList.contains('circles__circle')) return;
+//   clearInterval(slideAfter5Sec);
 
-circlesHeaderContainer.addEventListener('click', (e) => {
-  if (!e.target.classList.contains('circles__circle')) return;
-  clearInterval(slideAfter5Sec);
-
-  activateDot(e.target.dataset.circle);
-  goToSlide(e.target.dataset.circle);
-});
+//   activateDot(e.target.dataset.circle);
+//   goToSlide(e.target.dataset.circle);
+// });
 
 //////////////////////////////////////////////////////////////
-// Gallery
-const galleryContainer = document.querySelector('.gallery__wrapper');
+// Gallery - image click
+const galleryContainer = document.querySelectorAll('.gallery__wrapper');
 const overlay = document.querySelector('.overlay');
 
-galleryContainer.addEventListener('click', (e) => {
-  if (!e.target.closest('.gallery__image')) return;
+galleryContainer.forEach((el) => {
+  el.addEventListener('click', (e) => {
+    if (!e.target.closest('.gallery__image')) return;
 
-  overlay.classList.add('overlay--active');
+    overlay.classList.add('overlay--active');
 
-  overlay.insertAdjacentHTML(
-    'beforeend',
-    `<div class="modal__image">
-    <img class="modal__img"/>
-  </div>`
-  );
+    overlay.insertAdjacentHTML(
+      'beforeend',
+      `<div class="modal__image">
+      <img class="modal__img"/>
+    </div>`
+    );
 
-  document
-    .querySelector('.modal__img')
-    .setAttribute('src', e.target.getAttribute('src'));
+    document
+      .querySelector('.modal__img')
+      .setAttribute('src', e.target.getAttribute('src'));
+  });
 });
 
 const removeModal = function () {
@@ -184,3 +184,95 @@ document.addEventListener('keydown', (e) => {
     }
   }
 });
+
+////////////////////////////////////////////////////////////
+// Sliders
+
+const headerSlides = document.querySelectorAll('.header__slide');
+const gallerySlides = document.querySelectorAll('.gallery__wrapper');
+
+const circlesHeaderWrapper = document.querySelector('.circles--header');
+const circlesGalleryWrapper = document.querySelector('.circles--gallery');
+
+const circleHeaderClass = 'circles__circle--header';
+const circleGalleryClass = 'circles__circle--gallery';
+
+let curSlide = 0;
+const maxSlide = headerSlides.length;
+
+// Function
+const goToSlide = function (slidesContainer, slide) {
+  slidesContainer.forEach((el, i) => {
+    el.style.transform = `translateX(${(i - slide) * 100}%)`;
+  });
+};
+
+const createCircle = function (slidesContainer, dotsWrapper, cls) {
+  slidesContainer.forEach((_, i) => {
+    dotsWrapper.insertAdjacentHTML(
+      'beforeend',
+      `<div class="circles__circle ${cls}" data-circle="${i}"></div>`
+    );
+  });
+};
+
+const activateDot = function (dotsWrapper, type, slide) {
+  dotsWrapper.forEach((dot) => dot.classList.remove('circles__circle--active'));
+
+  document
+    .querySelector(`.circles__circle--${type}[data-circle="${slide}"`)
+    .classList.add('circles__circle--active');
+};
+
+// Header
+const headerInit = function () {
+  goToSlide(headerSlides, 0);
+  createCircle(headerSlides, circlesHeaderWrapper, circleHeaderClass);
+
+  const circleHeader = document.querySelectorAll('.circles__circle--header');
+
+  activateDot(circleHeader, 'header', 0);
+
+  // Next slide
+  const nextSlide = function () {
+    if (curSlide === maxSlide - 1) {
+      curSlide = 0;
+    } else {
+      curSlide++;
+    }
+
+    goToSlide(headerSlides, curSlide);
+    activateDot(circleHeader, 'header', curSlide);
+  };
+
+  const slideAfter5Sec = setInterval(nextSlide, 5000);
+
+  circlesHeaderWrapper.addEventListener('click', (e) => {
+    if (!e.target.classList.contains(circleHeaderClass)) return;
+    clearInterval(slideAfter5Sec);
+
+    activateDot(circleHeader, 'header', e.target.dataset.circle);
+    goToSlide(headerSlides, e.target.dataset.circle);
+  });
+};
+
+headerInit();
+
+// Gallery
+const galleryInit = function () {
+  goToSlide(gallerySlides, 0);
+  createCircle(gallerySlides, circlesGalleryWrapper, circleGalleryClass);
+
+  const circleGallery = document.querySelectorAll('.circles__circle--gallery');
+
+  activateDot(circleGallery, 'gallery', 0);
+
+  circlesGalleryWrapper.addEventListener('click', (e) => {
+    if (!e.target.classList.contains(circleGalleryClass)) return;
+
+    activateDot(circleGallery, 'gallery', e.target.dataset.circle);
+    goToSlide(gallerySlides, e.target.dataset.circle);
+  });
+};
+
+galleryInit();
