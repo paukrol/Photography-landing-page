@@ -15,6 +15,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     />
+    <link rel="shortcut icon" href="#" />
     <link rel="stylesheet" href="style.css" />
     <title>Photography</title>
   </head>
@@ -237,12 +238,7 @@
           <img class="gallery__img" src="images/portfolio/photo-7.jpg" alt="" />
         </div>
       </div>
-      <div class="circles circles--gallery flex">
-        <!-- <div class="circles__circle circles__circle--gallery active"></div>
-          <div class="circles__circle circles__circle--gallery"></div>
-          <div class="circles__circle circles__circle--gallery"></div> -->
-      </div>
-      <div class="overlay"></div>
+      <div class="circles circles--gallery flex"></div>
     </section>
 
     <!-- Section Video -->
@@ -282,12 +278,27 @@
           <div
             class="video-container video-container--small flex flex--vertical"
           >
-            <div class="video-container__image flex">
-              <img
+            <div
+              class="video-container__image video-container__image--small flex"
+            >
+              <!-- <img
                 src="images/video/thumb-1.jpg"
                 alt=""
                 class="video-container__img"
-              />
+              /> -->
+              <video class="video-container__img">
+                <source
+                  src="images/video/movie-overlay-1.mp4"
+                  type="video/mp4"
+                />
+              </video>
+              <i
+                class="
+                  video-container__icon video-container__icon--small
+                  fas
+                  fa-play
+                "
+              ></i>
             </div>
             <p class="video-container__description body-text">
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -296,12 +307,27 @@
           <div
             class="video-container video-container--small flex flex--vertical"
           >
-            <div class="video-container__image flex">
-              <img
+            <div
+              class="video-container__image video-container__image--small flex"
+            >
+              <!-- <img
                 src="images/video/thumb-2.jpg"
                 alt=""
                 class="video-container__img"
-              />
+              /> -->
+              <video class="video-container__img">
+                <source
+                  src="images/video/movie-overlay-2.mp4"
+                  type="video/mp4"
+                />
+              </video>
+              <i
+                class="
+                  video-container__icon video-container__icon--small
+                  fas
+                  fa-play
+                "
+              ></i>
             </div>
             <p class="video-container__description body-text">
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -310,12 +336,27 @@
           <div
             class="video-container video-container--small flex flex--vertical"
           >
-            <div class="video-container__image flex">
-              <img
+            <div
+              class="video-container__image video-container__image--small flex"
+            >
+              <!-- <img
                 src="images/video/thumb-3.jpg"
                 alt=""
                 class="video-container__img"
-              />
+              /> -->
+              <video class="video-container__img">
+                <source
+                  src="images/video/movie-overlay-3.mp4"
+                  type="video/mp4"
+                />
+              </video>
+              <i
+                class="
+                  video-container__icon video-container__icon--small
+                  fas
+                  fa-play
+                "
+              ></i>
             </div>
             <p class="video-container__description body-text">
               Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -526,7 +567,7 @@
         </p>
       </div>
     </footer>
-
+    <div class="overlay"></div>
     <script src="script.js"></script>
     <!-- <script src="script-old.js"></script> -->
   </body>

@@ -23,67 +23,8 @@ document.addEventListener('keydown', (e) => {
   });
 });
 
-// /////////////////////////////////////////////////////////////
-// // Slider header
-
-// const headerSlides = document.querySelectorAll('.header__slide');
-// const circlesHeaderWrapper = document.querySelector('.circles--header');
-// let curSlide = 0;
-// const maxSlide = headerSlides.length;
-
-// const goToSlide = function (slide) {
-//   headerSlides.forEach((el, i) => {
-//     el.style.transform = `translateX(${(i - slide) * 100}%)`;
-//   });
-// };
-// goToSlide(0);
-
-// const createCircle = function () {
-//   headerSlides.forEach((_, i) => {
-//     circlesHeaderWrapper.insertAdjacentHTML(
-//       'beforeend',
-//       `<div class="circles__circle" data-circle="${i}"></div>`
-//     );
-//   });
-// };
-// createCircle();
-
-// // Activate dot
-// const activateDot = function (slide) {
-//   document
-//     .querySelectorAll('.circles__circle')
-//     .forEach((dot) => dot.classList.remove('circles__circle--active'));
-
-//   document
-//     .querySelector(`.circles__circle[data-circle="${slide}"`)
-//     .classList.add('circles__circle--active');
-// };
-// activateDot(0);
-
-// // Next slide
-// const nextSlide = function () {
-//   if (curSlide === maxSlide - 1) {
-//     curSlide = 0;
-//   } else {
-//     curSlide++;
-//   }
-
-//   goToSlide(curSlide);
-//   activateDot(curSlide);
-// };
-
-// const slideAfter5Sec = setInterval(nextSlide, 5000);
-
-// circlesHeaderWrapper.addEventListener('click', (e) => {
-//   if (!e.target.classList.contains('circles__circle')) return;
-//   clearInterval(slideAfter5Sec);
-
-//   activateDot(e.target.dataset.circle);
-//   goToSlide(e.target.dataset.circle);
-// });
-
 //////////////////////////////////////////////////////////////
-// Gallery - image click
+// Gallery - modal
 const galleryContainer = document.querySelectorAll('.gallery__wrapper');
 const overlay = document.querySelector('.overlay');
 
@@ -106,17 +47,19 @@ galleryContainer.forEach((el) => {
   });
 });
 
-const removeModal = function () {
-  if (!document.querySelector('.modal__image')) return;
-  document.querySelector('.modal__image').remove();
+const removeModal = function (el) {
+  if (!el) return;
+  el.remove();
   overlay.classList.remove('overlay--active');
 };
 
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') removeModal();
+  if (e.key === 'Escape') removeModal(document.querySelector('.modal__image'));
 });
 
-overlay.addEventListener('click', () => removeModal());
+overlay.addEventListener('click', () =>
+  removeModal(document.querySelector('.modal__image'))
+);
 
 ///////////////////////////////////////////////////////
 // Video
@@ -276,3 +219,84 @@ const galleryInit = function () {
 };
 
 galleryInit();
+
+/////////////////////////////////////////////////////////////////////
+// Video modal
+
+const playVideoSmall = document.querySelectorAll(
+  '.video-container__image--small'
+);
+
+playVideoSmall.forEach((el) => {
+  el.addEventListener('click', (e) => {
+    if (!e.target.closest('.video-container__image')) return;
+    overlay.classList.add('overlay--active');
+
+    overlay.insertAdjacentHTML(
+      'beforeend',
+      `<div class="video-container__image video-container__image--modal flex">
+        <video class="video-container__img video-container__img--modal">
+          <source />
+        </video>
+        <i
+                class="
+                  video-container__icon video-container__icon--modal
+                  fas
+                  fa-play
+                "
+              ></i>
+       </div>`
+    );
+
+    document
+      .querySelector('.video-container__img--modal source')
+      .setAttribute(
+        'src',
+        e.target
+          .closest('.video-container__image')
+          .firstElementChild.firstElementChild.getAttribute('src')
+      );
+
+    const play = document.querySelector('.video-container__icon--modal');
+    const mainVideo = document.querySelector('.video-container__img--modal');
+
+    const displayBlock = () => (play.style.display = 'block');
+    const displayNone = () => (play.style.display = 'none');
+
+    play.addEventListener('click', (e) => {
+      const cls = play.classList[3];
+      console.log(mainVideo);
+      console.log(e.target);
+
+      if (cls === 'fa-play') {
+        e.target.classList.remove('fa-play');
+        e.target.classList.add('fa-pause');
+        mainVideo.play();
+        e.target.style.display = 'none';
+      } else {
+        e.target.classList.remove('fa-pause');
+        e.target.classList.add('fa-play');
+        mainVideo.pause();
+        e.target.style.display = 'block';
+      }
+
+      mainVideo
+        .closest('.video-container__image')
+        .addEventListener('mouseover', displayBlock);
+
+      mainVideo
+        .closest('.video-container__image')
+        .addEventListener('mouseout', displayNone);
+    });
+  });
+});
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape')
+    removeModal(document.querySelector('.video-container__image--modal'));
+});
+
+overlay.addEventListener('click', (e) => {
+  if (e.target.closest('.video-container__image--modal')) return;
+  removeModal(document.querySelector('.video-container__image--modal'));
+});
