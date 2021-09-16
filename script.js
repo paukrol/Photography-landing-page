@@ -6,7 +6,6 @@ const search = document.querySelectorAll('.menu__item--search');
 search.forEach((s) => {
   s.addEventListener('click', (e) => {
     e.currentTarget.classList.add('active');
-    console.log(e.currentTarget);
   });
 });
 
@@ -16,11 +15,14 @@ document.addEventListener('click', (e) => {
     s.classList.remove('active');
   });
 
-  //   mainVideo.pause();
-  //   play.classList.remove('fa-pause');
-  //   play.classList.add('fa-play');
-
-  //   play.style.display = 'block';
+  lightbox.forEach((lb) => {
+    if (lb.classList.contains('lightbox--active')) {
+      mainVideo.pause();
+      play.classList.remove('fa-pause');
+      play.classList.add('fa-play');
+      play.style.display = 'block';
+    }
+  });
 });
 
 document.addEventListener('keydown', (e) => {
@@ -28,107 +30,6 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') s.classList.remove('active');
   });
 });
-
-///////////////////////////////////////////////////////
-// Video
-
-const play = document.querySelector('.video-container__icon');
-const mainVideo = document.querySelector('.video-container__img');
-
-const displayBlock1 = () => (play.style.display = 'block');
-const displayNone1 = () => (play.style.display = 'none');
-play.addEventListener('click', (e) => {
-  const cls = play.classList[2];
-
-  if (cls === 'fa-play') {
-    e.target.classList.remove('fa-play');
-    e.target.classList.add('fa-pause');
-    mainVideo.play();
-    e.target.style.display = 'none';
-  } else {
-    e.target.classList.remove('fa-pause');
-    e.target.classList.add('fa-play');
-    mainVideo.pause();
-    e.target.style.display = 'block';
-  }
-
-  mainVideo
-    .closest('.video-container__image')
-    .addEventListener('mouseover', displayBlock1);
-
-  mainVideo
-    .closest('.video-container__image')
-    .addEventListener('mouseout', displayNone1);
-});
-
-mainVideo.addEventListener('ended', () => {
-  play.classList.remove('fa-pause');
-  play.classList.add('fa-play');
-  displayBlock();
-
-  mainVideo
-    .closest('.video-container__image')
-    .removeEventListener('mouseover', displayBlock1);
-
-  mainVideo
-    .closest('.video-container__image')
-    .removeEventListener('mouseout', displayNone1);
-
-  console.log('działa');
-});
-
-const playPause = function (e) {
-  e.preventDefault();
-
-  if (!lightBoxContainerVideo.classList.contains('lightbox--active')) {
-    if (e.key === ' ') {
-      if (mainVideo.paused) {
-        mainVideo.play();
-
-        play.classList.remove('fa-play');
-        play.classList.add('fa-pause');
-        // mainVideo.play();
-        displayNone1();
-      } else {
-        mainVideo.pause();
-        play.classList.remove('fa-pause');
-        play.classList.add('fa-play');
-
-        displayBlock1();
-      }
-    }
-  }
-};
-
-const entriesFunction = function (entries) {
-  const [entry] = entries;
-  console.log(entry);
-  if (entry.isIntersecting) {
-    document.addEventListener('keydown', playPause);
-  } else {
-    document.removeEventListener('keydown', playPause);
-    mainVideo.pause();
-    play.classList.remove('fa-pause');
-    play.classList.add('fa-play');
-
-    displayBlock1();
-
-    mainVideo
-      .closest('.video-container__image')
-      .removeEventListener('mouseover', displayBlock1);
-
-    mainVideo
-      .closest('.video-container__image')
-      .removeEventListener('mouseout', displayNone1);
-  }
-};
-
-const mainVideoObserver = new IntersectionObserver(entriesFunction, {
-  root: null,
-  threshold: 0.2,
-});
-
-mainVideoObserver.observe(mainVideo);
 
 ////////////////////////////////////////////////////////////
 // Sliders
@@ -222,6 +123,149 @@ const galleryInit = function () {
 
 galleryInit();
 
+///////////////////////////////////////////////////////
+// Video
+
+const displayBlock = (playPauseBtn) => (playPauseBtn.style.display = 'block');
+const displayNone = (playPauseBtn) => (playPauseBtn.style.display = 'none');
+
+const play = document.querySelector('.video-container__icon');
+const mainVideo = document.querySelector('.video-container__img');
+
+const displayBlock1 = () => (play.style.display = 'block');
+const displayNone1 = () => (play.style.display = 'none');
+
+const displayBlockMainVideo = displayBlock.bind(null, play);
+const displayNoneMainVideo = displayNone.bind(null, play);
+
+play.addEventListener('click', (e) => {
+  if (mainVideo.paused) {
+    e.target.classList.remove('fa-play');
+    e.target.classList.add('fa-pause');
+    mainVideo.play();
+    e.target.style.display = 'none';
+
+    mainVideo
+      .closest('.video-container__image')
+      .addEventListener('mouseover', displayBlockMainVideo);
+
+    mainVideo
+      .closest('.video-container__image')
+      .addEventListener('mouseout', displayNoneMainVideo);
+  } else {
+    e.target.classList.remove('fa-pause');
+    e.target.classList.add('fa-play');
+    mainVideo.pause();
+    e.target.style.display = 'block';
+
+    mainVideo
+      .closest('.video-container__image')
+      .removeEventListener('mouseover', displayBlockMainVideo);
+
+    mainVideo
+      .closest('.video-container__image')
+      .removeEventListener('mouseout', displayNoneMainVideo);
+  }
+});
+
+mainVideo.addEventListener('ended', () => {
+  play.classList.remove('fa-pause');
+  play.classList.add('fa-play');
+  displayBlock(play);
+
+  mainVideo
+    .closest('.video-container__image')
+    .removeEventListener('mouseover', displayBlockMainVideo);
+
+  mainVideo
+    .closest('.video-container__image')
+    .removeEventListener('mouseout', displayNoneMainVideo);
+});
+
+let isMouseHover = false;
+const playPause = function (e) {
+  e.preventDefault();
+
+  if (!lightBoxContainerVideo.classList.contains('lightbox--active')) {
+    if (e.key === ' ') {
+      if (mainVideo.paused) {
+        mainVideo.play();
+
+        play.classList.remove('fa-play');
+        play.classList.add('fa-pause');
+
+        mainVideo
+          .closest('.video-container__image')
+          .addEventListener('mouseover', () => {
+            isMouseHover = true;
+          });
+
+        mainVideo
+          .closest('.video-container__image')
+          .addEventListener('mouseout', () => {
+            isMouseHover = false;
+          });
+
+        if (!isMouseHover) {
+          displayNone(play);
+        }
+
+        mainVideo
+          .closest('.video-container__image')
+          .addEventListener('mouseover', displayBlockMainVideo);
+
+        mainVideo
+          .closest('.video-container__image')
+          .addEventListener('mouseout', displayNoneMainVideo);
+      } else {
+        mainVideo.pause();
+        play.classList.remove('fa-pause');
+        play.classList.add('fa-play');
+
+        displayBlock(play);
+
+        mainVideo
+          .closest('.video-container__image')
+          .removeEventListener('mouseover', displayBlockMainVideo);
+
+        mainVideo
+          .closest('.video-container__image')
+          .removeEventListener('mouseout', displayNoneMainVideo);
+      }
+    }
+  }
+};
+
+const entriesFunction = function (entries) {
+  const [entry] = entries;
+  console.log(entry);
+  if (entry.isIntersecting) {
+    document.addEventListener('keydown', playPause);
+  } else {
+    document.removeEventListener('keydown', playPause);
+
+    mainVideo.pause();
+    play.classList.remove('fa-pause');
+    play.classList.add('fa-play');
+    displayBlock(play);
+
+    mainVideo
+      .closest('.video-container__image')
+      .removeEventListener('mouseover', displayBlockMainVideo);
+
+    mainVideo
+      .closest('.video-container__image')
+      .removeEventListener('mouseout', displayNoneMainVideo);
+  }
+};
+
+const mainVideoObserver = new IntersectionObserver(entriesFunction, {
+  root: null,
+  threshold: 0.2,
+});
+
+mainVideoObserver.observe(mainVideo);
+
 // //////////////////////////////////////////////////////////////////
 // Lightbox Video
 
@@ -265,8 +309,8 @@ lightboxContainerGallery.insertAdjacentHTML(
   `<div class="lightbox__image">
     <img class="lightbox__img"/>
   </div>
-  <button class="lightbox__btn lightbox__btn--right" id="right">&rarr;</button>
-  <button class="lightbox__btn lightbox__btn--left" id="left">&larr;</button>
+  <button class="lightbox__btn lightbox__btn--right">&rarr;</button>
+  <button class="lightbox__btn lightbox__btn--left">&larr;</button>
   `
 );
 
@@ -274,29 +318,24 @@ const lightboxImage = lightboxContainerGallery.querySelector('.lightbox__img');
 let lightboxEnabled;
 let arrayGallery;
 
-// const lightboxBtns = document.querySelectorAll('.lightbox__btn');
-// const lightboxBtnLeft = document.querySelector('#left');
-// const lightboxBtnLeft = document.querySelector('.lightbox__btn--left');
-// const lightboxBtnRight = document.querySelector('#right');
-// const lightboxBtnRight = document.querySelector('.lightbox__btn--right');
-
 const lightboxBtns = document.querySelectorAll('.lightbox__btn');
+let lightboxBtnLeft;
+let lightboxBtnRight;
 const lightboxPlayIcons = document.querySelector(
   '.video-container__icon--lightbox'
 );
 
 // functions
 
+const displayBlockLightbox = displayBlock.bind(null, lightboxPlayIcons);
+const displayNoneLightbox = displayNone.bind(null, lightboxPlayIcons);
+
 const setActive = (lightboxSrc, originalSrc, array) => {
   lightboxSrc.src = originalSrc.getAttribute('src');
   active = array.indexOf(originalSrc);
-  console.log(active);
 };
 
-let lightboxBtnLeft;
-let lightboxBtnRight;
-
-const switchBtnAddHidden = () => {
+const checkLightbox = function () {
   lightbox.forEach((lb) => {
     if (
       lb.classList.contains('lightbox--video') &&
@@ -314,17 +353,19 @@ const switchBtnAddHidden = () => {
       lightboxBtnRight = lb.querySelector('.lightbox__btn--right');
     }
   });
+};
+
+const switchBtnAddHidden = () => {
+  checkLightbox();
 
   lightboxBtnLeft.classList.remove('lightbox__btn--inactive');
   lightboxBtnRight.classList.remove('lightbox__btn--inactive');
   switch (active) {
     case 0:
       lightboxBtnLeft.classList.add('lightbox__btn--inactive');
-
       break;
     case last:
       lightboxBtnRight.classList.add('lightbox__btn--inactive');
-
       break;
     default:
       lightboxBtnLeft.classList.remove('lightbox__btn--inactive');
@@ -334,19 +375,6 @@ const switchBtnAddHidden = () => {
 
 const transitionSlidesLeft = (lightboxSrc, array, basic, end) => {
   // lightboxBtnLeft.focus();
-  lightbox.forEach((lb) => {
-    if (
-      lb.classList.contains('lightbox--video') &&
-      lb.classList.contains('lightbox--active')
-    ) {
-      last = arrayVideo.length - 1;
-    } else if (
-      lb.classList.contains('lightbox--gallery') &&
-      lb.classList.contains('lightbox--active')
-    ) {
-      last = arrayGallery.length - 1;
-    }
-  });
 
   active === 0
     ? setActive(lightboxSrc, end, array)
@@ -355,26 +383,11 @@ const transitionSlidesLeft = (lightboxSrc, array, basic, end) => {
   lightboxPlayIcons.classList.remove('fa-pause');
   lightboxPlayIcons.classList.add('fa-play');
   // removeBtnAnimation();
-
   switchBtnAddHidden();
 };
 
 const transitionSlidesRight = (lightboxSrc, array, first, basic) => {
   // lightboxBtnRight.focus();
-
-  lightbox.forEach((lb) => {
-    if (
-      lb.classList.contains('lightbox--video') &&
-      lb.classList.contains('lightbox--active')
-    ) {
-      last = arrayVideo.length - 1;
-    } else if (
-      lb.classList.contains('lightbox--gallery') &&
-      lb.classList.contains('lightbox--active')
-    ) {
-      last = arrayGallery.length - 1;
-    }
-  });
 
   active === last
     ? setActive(lightboxSrc, first, array)
@@ -383,14 +396,11 @@ const transitionSlidesRight = (lightboxSrc, array, first, basic) => {
   lightboxPlayIcons.classList.remove('fa-pause');
   lightboxPlayIcons.classList.add('fa-play');
 
-  // removeBtnAnimation();
   switchBtnAddHidden();
+  // removeBtnAnimation();
 };
 
 // event listener
-
-const displayBlock = () => (lightboxPlayIcons.style.display = 'block');
-const displayNone = () => (lightboxPlayIcons.style.display = 'none');
 
 videoWrapper.addEventListener('click', (e) => {
   if (!e.target.closest('.video-container__image')) return;
@@ -405,42 +415,18 @@ videoWrapper.addEventListener('click', (e) => {
   switchBtnAddHidden();
   lightboxVideoSrc.parentElement.load();
 
-  lightboxPlayIcons.addEventListener('click', (e) => {
-    const cls = lightboxPlayIcons.classList[3];
-
-    if (cls === 'fa-play') {
-      e.target.classList.remove('fa-play');
-      e.target.classList.add('fa-pause');
-      lightboxVideo.play();
-      e.target.style.display = 'none';
-    } else {
-      e.target.classList.remove('fa-pause');
-      e.target.classList.add('fa-play');
-      lightboxVideo.pause();
-      e.target.style.display = 'block';
-    }
-
-    lightboxVideo
-      .closest('.video-container--lightbox')
-      .addEventListener('mouseover', displayBlock);
-
-    lightboxVideo
-      .closest('.video-container--lightbox')
-      .addEventListener('mouseout', displayNone);
-  });
-
   lightboxVideo.addEventListener('ended', () => {
     lightboxPlayIcons.classList.remove('fa-pause');
     lightboxPlayIcons.classList.add('fa-play');
-    displayBlock();
+    displayBlock(lightboxPlayIcons);
 
     lightboxVideo
       .closest('.video-container--lightbox')
-      .removeEventListener('mouseover', displayBlock);
+      .removeEventListener('mouseover', displayBlockLightbox);
 
     lightboxVideo
       .closest('.video-container--lightbox')
-      .removeEventListener('mouseout', displayNone);
+      .removeEventListener('mouseout', displayNoneLightbox);
   });
 });
 
@@ -451,7 +437,6 @@ galleryWrapper.forEach((wrapper) => {
 
     arrayGallery = Array.from(lightboxEnabled);
 
-    // lastImage = arrayGallery.length - 1;
     lightboxContainerGallery.classList.add('lightbox--active');
 
     const image = e.target
@@ -477,79 +462,11 @@ document.addEventListener('keydown', (e) => {
     lightboxContainerGallery.classList.remove('lightbox--active');
 });
 
-// document.addEventListener('keydown', (e) => {
-//   if (!lightBoxContainerVideo.classList.contains('lightbox--active')) return;
-//   if (!(e.key === 'ArrowLeft' || e.key === 'ArrowRight')) return;
-
-//   e.key === 'ArrowRight'
-//     ? transitionSlidesRight(
-//         lightboxVideoSrc,
-//         arrayVideo,
-//         arrayVideo[0],
-//         arrayVideo[
-//           active
-//         ].parentElement.parentElement.parentElement.nextElementSibling?.querySelector(
-//           'source'
-//         )
-//       )
-//     : transitionSlidesLeft(
-//         lightboxVideoSrc,
-//         arrayVideo,
-//         arrayVideo[
-//           active
-//         ].parentElement.parentElement.parentElement.previousElementSibling?.querySelector(
-//           'source'
-//         ),
-//         arrayVideo[last]
-//       );
-
-//   lightboxVideoSrc.parentElement.load();
-
-//   // lightboxPlayIcons.classList.remove('fa-pause');
-//   // lightboxPlayIcons.classList.add('fa-play');
-//   displayBlock();
-
-//   lightboxVideo
-//     .closest('.video-container--lightbox')
-//     .removeEventListener('mouseover', displayBlock);
-
-//   lightboxVideo
-//     .closest('.video-container--lightbox')
-//     .removeEventListener('mouseout', displayNone);
-// });
-
-// document.addEventListener('keydown', (e) => {
-//   if (!lightboxContainerGallery.classList.contains('lightbox--active')) return;
-//   if (!(e.key === 'ArrowLeft' || e.key === 'ArrowRight')) return;
-
-//   e.key === 'ArrowRight'
-//     ? transitionSlidesRight(
-//         lightboxImage,
-//         arrayGallery,
-//         arrayGallery[0],
-//         arrayGallery[active].parentElement.nextElementSibling?.firstElementChild
-//       )
-//     : transitionSlidesLeft(
-//         lightboxImage,
-//         arrayGallery,
-//         arrayGallery[active].parentElement.previousElementSibling
-//           ?.firstElementChild,
-//         arrayGallery[last]
-//       );
-
-//   // if (active === last) {
-//   //   lightboxBtns.forEach((btn) => {
-//   //     if (btn.id.includes('right')) btn.style.display = 'none';
-//   //   });
-//   //   document.removeEventListener('keydown', x);
-//   // }
-// });
-
 lightboxBtns.forEach((btn) => {
   btn.addEventListener('click', (e) => {
     if (!e.target.closest('.lightbox--video')) return;
 
-    e.currentTarget.id.includes('left')
+    e.currentTarget.classList.contains('lightbox__btn--left')
       ? transitionSlidesLeft(
           lightboxVideoSrc,
           arrayVideo,
@@ -573,15 +490,15 @@ lightboxBtns.forEach((btn) => {
 
     lightboxVideoSrc.parentElement.load();
 
-    displayBlock();
+    displayBlock(lightboxPlayIcons);
 
     lightboxVideo
       .closest('.video-container--lightbox')
-      .removeEventListener('mouseover', displayBlock);
+      .removeEventListener('mouseover', displayBlockLightbox);
 
     lightboxVideo
       .closest('.video-container--lightbox')
-      .removeEventListener('mouseout', displayNone);
+      .removeEventListener('mouseout', displayNoneLightbox);
 
     // switchBtnAddHidden();
   });
@@ -591,7 +508,7 @@ lightboxBtns.forEach((btn) => {
   btn.addEventListener('click', (e) => {
     if (!e.target.closest('.lightbox--gallery')) return;
 
-    e.currentTarget.id.includes('left')
+    e.currentTarget.classList.contains('lightbox__btn--left')
       ? transitionSlidesLeft(
           lightboxImage,
           arrayGallery,
@@ -627,9 +544,38 @@ lightBoxContainerVideo.addEventListener('click', (e) => {
 lightboxContainerGallery.addEventListener('click', (e) => {
   if (e.target.classList.contains('lightbox__btn')) return;
   lightboxContainerGallery.classList.remove('lightbox--active');
-  // lightboxBtns.forEach(btn => {
-  //   btn.style.displa
-  // })
+});
+
+lightboxPlayIcons.addEventListener('click', (e) => {
+  if (lightBoxContainerVideo.classList.contains('lightbox--active')) {
+    if (lightboxVideo.paused) {
+      e.target.classList.remove('fa-play');
+      e.target.classList.add('fa-pause');
+      lightboxVideo.play();
+      e.target.style.display = 'none';
+
+      lightboxVideo
+        .closest('.video-container--lightbox')
+        .addEventListener('mouseover', displayBlockLightbox);
+
+      lightboxVideo
+        .closest('.video-container--lightbox')
+        .addEventListener('mouseout', displayNoneLightbox);
+    } else {
+      e.target.classList.remove('fa-pause');
+      e.target.classList.add('fa-play');
+      lightboxVideo.pause();
+      e.target.style.display = 'block';
+
+      lightboxVideo
+        .closest('.video-container--lightbox')
+        .removeEventListener('mouseover', displayBlockLightbox);
+
+      lightboxVideo
+        .closest('.video-container--lightbox')
+        .removeEventListener('mouseout', displayNoneLightbox);
+    }
+  }
 });
 
 document.addEventListener('keydown', (e) => {
@@ -641,16 +587,15 @@ document.addEventListener('keydown', (e) => {
 
         lightboxPlayIcons.classList.remove('fa-play');
         lightboxPlayIcons.classList.add('fa-pause');
-        // lightboxPlayIcons.play();
         lightboxPlayIcons.style.display = 'none';
 
         lightboxVideo
           .closest('.video-container--lightbox')
-          .addEventListener('mouseover', displayBlock);
+          .addEventListener('mouseover', displayBlockLightbox);
 
         lightboxVideo
           .closest('.video-container--lightbox')
-          .addEventListener('mouseout', displayNone);
+          .addEventListener('mouseout', displayNoneLightbox);
       } else {
         lightboxVideo.pause();
         lightboxPlayIcons.classList.remove('fa-pause');
@@ -660,11 +605,11 @@ document.addEventListener('keydown', (e) => {
 
         lightboxVideo
           .closest('.video-container--lightbox')
-          .removeEventListener('mouseover', displayBlock);
+          .removeEventListener('mouseover', displayBlockLightbox);
 
         lightboxVideo
           .closest('.video-container--lightbox')
-          .removeEventListener('mouseout', displayNone);
+          .removeEventListener('mouseout', displayNoneLightbox);
       }
     }
   }
@@ -676,7 +621,6 @@ document.addEventListener('keydown', (e) => {
 document.addEventListener('keydown', function (e) {
   if (!lightboxContainerGallery.classList.contains('lightbox--active')) return;
   if (e.key === 'ArrowLeft' && active !== 0) {
-    console.log('działa');
     transitionSlidesLeft(
       lightboxImage,
       arrayGallery,
@@ -687,7 +631,6 @@ document.addEventListener('keydown', function (e) {
   }
 
   if (e.key === 'ArrowRight' && active !== last) {
-    console.log('działa');
     transitionSlidesRight(
       lightboxImage,
       arrayGallery,
@@ -730,13 +673,13 @@ document.addEventListener('keydown', (e) => {
     lightboxVideoSrc.parentElement.load();
   }
 
-  displayBlock();
+  displayBlock(lightboxPlayIcons);
 
   lightboxVideo
     .closest('.video-container--lightbox')
-    .removeEventListener('mouseover', displayBlock);
+    .removeEventListener('mouseover', displayBlockLightbox);
 
   lightboxVideo
     .closest('.video-container--lightbox')
-    .removeEventListener('mouseout', displayNone);
+    .removeEventListener('mouseout', displayNoneLightbox);
 });
