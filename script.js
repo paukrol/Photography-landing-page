@@ -132,9 +132,6 @@ const displayNone = (playPauseBtn) => (playPauseBtn.style.display = 'none');
 const play = document.querySelector('.video-container__icon');
 const mainVideo = document.querySelector('.video-container__img');
 
-const displayBlock1 = () => (play.style.display = 'block');
-const displayNone1 = () => (play.style.display = 'none');
-
 const displayBlockMainVideo = displayBlock.bind(null, play);
 const displayNoneMainVideo = displayNone.bind(null, play);
 
@@ -143,7 +140,7 @@ play.addEventListener('click', (e) => {
     e.target.classList.remove('fa-play');
     e.target.classList.add('fa-pause');
     mainVideo.play();
-    e.target.style.display = 'none';
+    displayNoneMainVideo();
 
     mainVideo
       .closest('.video-container__image')
@@ -156,7 +153,7 @@ play.addEventListener('click', (e) => {
     e.target.classList.remove('fa-pause');
     e.target.classList.add('fa-play');
     mainVideo.pause();
-    e.target.style.display = 'block';
+    displayBlockMainVideo();
 
     mainVideo
       .closest('.video-container__image')
@@ -183,6 +180,19 @@ mainVideo.addEventListener('ended', () => {
 });
 
 let isMouseHover = false;
+
+mainVideo
+  .closest('.video-container__image')
+  .addEventListener('mouseover', () => {
+    isMouseHover = true;
+  });
+
+mainVideo
+  .closest('.video-container__image')
+  .addEventListener('mouseout', () => {
+    isMouseHover = false;
+  });
+
 const playPause = function (e) {
   e.preventDefault();
 
@@ -193,18 +203,6 @@ const playPause = function (e) {
 
         play.classList.remove('fa-play');
         play.classList.add('fa-pause');
-
-        mainVideo
-          .closest('.video-container__image')
-          .addEventListener('mouseover', () => {
-            isMouseHover = true;
-          });
-
-        mainVideo
-          .closest('.video-container__image')
-          .addEventListener('mouseout', () => {
-            isMouseHover = false;
-          });
 
         if (!isMouseHover) {
           displayNone(play);
@@ -330,9 +328,62 @@ const lightboxPlayIcons = document.querySelector(
 const displayBlockLightbox = displayBlock.bind(null, lightboxPlayIcons);
 const displayNoneLightbox = displayNone.bind(null, lightboxPlayIcons);
 
+const checkPause = function () {
+  lightboxVideo.play();
+  lightboxPlayIcons.classList.remove('fa-play');
+  lightboxPlayIcons.classList.add('fa-pause');
+  displayNoneLightbox();
+};
+
+const checkPlay = function () {
+  lightboxVideo.pause();
+  lightboxPlayIcons.classList.remove('fa-pause');
+  lightboxPlayIcons.classList.add('fa-play');
+  displayBlockLightbox();
+};
+
+const removeBtnAnimation = function () {
+  setTimeout(() => {
+    lightboxBtnLeft.blur();
+    lightboxBtnRight.blur();
+  }, 200);
+};
+
 const setActive = (lightboxSrc, originalSrc, array) => {
   lightboxSrc.src = originalSrc.getAttribute('src');
   active = array.indexOf(originalSrc);
+
+  console.log(window.innerWidth, window.innerHeight);
+
+  lightboxImage.style.height = 'auto';
+  lightboxImage.style.width = 'auto';
+  // console.log(lightboxImage.width, lightboxImage.height);
+
+  if (window.innerWidth > window.innerHeight) {
+    lightboxImage.style.height = '100%';
+    if (lightboxImage.width > window.innerWidth) {
+      lightboxImage.style.width = '100%';
+      lightboxImage.style.height = 'auto';
+    } else {
+      lightboxImage.style.width = 'auto';
+    }
+  } else if (window.innerWidth < window.innerHeight) {
+    if (lightboxImage.width < lightboxImage.height) {
+      lightboxImage.style.height = '100%';
+      // console.log(lightboxImage.width, lightboxImage.height);
+      if (lightboxImage.width > window.innerWidth) {
+        lightboxImage.style.width = '100%';
+        lightboxImage.style.height = 'auto';
+      } else {
+        lightboxImage.style.height = '100%';
+        lightboxImage.style.width = 'auto';
+      }
+    } else {
+      lightboxImage.style.width = '100%';
+      lightboxImage.style.height = 'auto';
+    }
+  }
+  // console.log(lightboxImage.width, lightboxImage.height);
 };
 
 const checkLightbox = function () {
@@ -374,7 +425,7 @@ const switchBtnAddHidden = () => {
 };
 
 const transitionSlidesLeft = (lightboxSrc, array, basic, end) => {
-  // lightboxBtnLeft.focus();
+  lightboxBtnLeft.focus();
 
   active === 0
     ? setActive(lightboxSrc, end, array)
@@ -382,12 +433,12 @@ const transitionSlidesLeft = (lightboxSrc, array, basic, end) => {
 
   lightboxPlayIcons.classList.remove('fa-pause');
   lightboxPlayIcons.classList.add('fa-play');
-  // removeBtnAnimation();
   switchBtnAddHidden();
+  removeBtnAnimation();
 };
 
 const transitionSlidesRight = (lightboxSrc, array, first, basic) => {
-  // lightboxBtnRight.focus();
+  lightboxBtnRight.focus();
 
   active === last
     ? setActive(lightboxSrc, first, array)
@@ -397,7 +448,7 @@ const transitionSlidesRight = (lightboxSrc, array, first, basic) => {
   lightboxPlayIcons.classList.add('fa-play');
 
   switchBtnAddHidden();
-  // removeBtnAnimation();
+  removeBtnAnimation();
 };
 
 // event listener
@@ -452,8 +503,10 @@ document.addEventListener('keydown', (e) => {
   if (
     lightBoxContainerVideo.classList.contains('lightbox--active') &&
     e.key === 'Escape'
-  )
+  ) {
+    checkPlay();
     lightBoxContainerVideo.classList.remove('lightbox--active');
+  }
 
   if (
     lightboxContainerGallery.classList.contains('lightbox--active') &&
@@ -499,8 +552,6 @@ lightboxBtns.forEach((btn) => {
     lightboxVideo
       .closest('.video-container--lightbox')
       .removeEventListener('mouseout', displayNoneLightbox);
-
-    // switchBtnAddHidden();
   });
 });
 
@@ -523,8 +574,6 @@ lightboxBtns.forEach((btn) => {
           arrayGallery[active].parentElement.nextElementSibling
             ?.firstElementChild
         );
-
-    // switchBtnAddHidden();
   });
 });
 
@@ -549,10 +598,7 @@ lightboxContainerGallery.addEventListener('click', (e) => {
 lightboxPlayIcons.addEventListener('click', (e) => {
   if (lightBoxContainerVideo.classList.contains('lightbox--active')) {
     if (lightboxVideo.paused) {
-      e.target.classList.remove('fa-play');
-      e.target.classList.add('fa-pause');
-      lightboxVideo.play();
-      e.target.style.display = 'none';
+      checkPause();
 
       lightboxVideo
         .closest('.video-container--lightbox')
@@ -562,10 +608,7 @@ lightboxPlayIcons.addEventListener('click', (e) => {
         .closest('.video-container--lightbox')
         .addEventListener('mouseout', displayNoneLightbox);
     } else {
-      e.target.classList.remove('fa-pause');
-      e.target.classList.add('fa-play');
-      lightboxVideo.pause();
-      e.target.style.display = 'block';
+      checkPlay();
 
       lightboxVideo
         .closest('.video-container--lightbox')
@@ -578,16 +621,32 @@ lightboxPlayIcons.addEventListener('click', (e) => {
   }
 });
 
+lightboxVideo
+  .closest('.video-container--lightbox')
+  .addEventListener('mouseover', () => {
+    isMouseHover = true;
+  });
+
+lightboxVideo
+  .closest('.video-container--lightbox')
+  .addEventListener('mouseout', () => {
+    isMouseHover = false;
+  });
+
 document.addEventListener('keydown', (e) => {
   if (lightBoxContainerVideo.classList.contains('lightbox--active')) {
     e.preventDefault();
     if (e.key === ' ') {
       if (lightboxVideo.paused) {
-        lightboxVideo.play();
+        // checkPause();
 
+        lightboxVideo.play();
         lightboxPlayIcons.classList.remove('fa-play');
         lightboxPlayIcons.classList.add('fa-pause');
-        lightboxPlayIcons.style.display = 'none';
+
+        if (!isMouseHover) {
+          displayNoneLightbox();
+        }
 
         lightboxVideo
           .closest('.video-container--lightbox')
@@ -597,11 +656,11 @@ document.addEventListener('keydown', (e) => {
           .closest('.video-container--lightbox')
           .addEventListener('mouseout', displayNoneLightbox);
       } else {
+        // checkPlay();
         lightboxVideo.pause();
         lightboxPlayIcons.classList.remove('fa-pause');
         lightboxPlayIcons.classList.add('fa-play');
-
-        lightboxPlayIcons.style.display = 'block';
+        displayBlockLightbox();
 
         lightboxVideo
           .closest('.video-container--lightbox')
@@ -614,9 +673,6 @@ document.addEventListener('keydown', (e) => {
     }
   }
 });
-
-/////////////////////////////////////////////////////
-/////////////////////////////////////////////////////
 
 document.addEventListener('keydown', function (e) {
   if (!lightboxContainerGallery.classList.contains('lightbox--active')) return;
