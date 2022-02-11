@@ -1,4 +1,5 @@
 'use strict';
+const menuBar = document.querySelector('.menu-bars');
 
 // Hidden / unhidden search icon
 const search = document.querySelectorAll('.menu__item--search');
@@ -738,4 +739,9 @@ document.addEventListener('keydown', (e) => {
   lightboxVideo
     .closest('.video-container--lightbox')
     .removeEventListener('mouseout', displayNoneLightbox);
+});
+
+const header = document.querySelector('.header');
+menuBar.addEventListener('click', (e) => {
+  header.classList.toggle('change');
 });
