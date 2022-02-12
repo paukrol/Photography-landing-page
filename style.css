@@ -970,6 +970,27 @@ html {
   padding: 0 3rem;
 }
 
+.footer__link {
+  position: relative;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.footer__hover {
+  position: absolute;
+  bottom: 2rem;
+  right: -10rem;
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  background-color: #4b4b4b;
+  padding: 1rem;
+  opacity: 0;
+  transition: all 0.4s;
+  z-index: 10;
+}
+
+.footer__link:hover .footer__hover {
+  opacity: 1;
+}
+
 /* End Footer Style */
 
 /* MEDIA QUERIES */
